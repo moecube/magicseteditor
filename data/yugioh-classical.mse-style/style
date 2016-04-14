@@ -204,6 +204,7 @@ card style:
 			size: 6
 			color: rgb(0,0,0)
 		visible: script: if is_nmonster() then false else true
+		padding left: 1.5
 	############################# Text box
 	rule text:
 		left: 
@@ -230,7 +231,7 @@ card style:
 			color: rgb(0,0,0)
 		alignment: top left stretch if-overflow
 		z index: 3
-		padding left: 1
+		padding left: 1.5
 		padding top: 0
 		padding right: 1
 		padding bottom: 0
@@ -251,7 +252,7 @@ card style:
 				else if is_xyz() then 110
 				else 106
 		top: 230.5
-		width: 16
+		width: 15.5
 		height: 10
 		z index: 3
 		alignment: right middle
@@ -267,7 +268,7 @@ card style:
 				else if is_xyz() then 145.5
 				else 143
 		top: 230.5
-		width: 16
+		width: 15.5
 		height: 10
 		z index: 3
 		alignment: right middle
@@ -303,20 +304,15 @@ card style:
 			size: 3.5
 		alignment: top left stretch if-overflow
 		z index: 3
-		padding left: 0
-		padding top: 0
+		padding left: 0.5
+		padding top: 0.5
 		padding right: 0
 		padding bottom: 0
-		line height hard: 1.0
-		line height line: 1.0
-		line height soft: 1.0
-		line height hard max: 1.1
-		line height line max: 1.1
 		visible: script: if is_nopendulum() then false else true
 	pendulum scale 1:
-		left: { if is_big_pendulum_scale_1() then 14.5 else 16 }
+		left: { if is_big_pendulum_scale_1() then 15 else 16 }
 		top: 174
-		width: 10
+		width: 9.5
 		height: 11
 		z index: 3
 		alignment: bottom center
@@ -326,9 +322,9 @@ card style:
 			color: rgb(0,0,0)
 		visible: script: if is_nopendulum() then false else true
 	pendulum scale 2:
-		left: { if is_big_pendulum_scale_2() then 151 else 152 }
+		left: { if is_big_pendulum_scale_2() then 151.5 else 152 }
 		top: 174
-		width: 10
+		width: 9.5
 		height: 11
 		z index: 3
 		alignment: bottom center
@@ -349,72 +345,3 @@ card style:
 			size: 8.5
 			color: script: if is_pendulum() then rgb(0,0,0) else if is_blmonster() then rgb(255,255,255) else rgb(0,0,0)
 		visible: false
-############################################extra card field:
-extra card field:
-	type: color
-	name: pendulum text bg
-	default: rgb(255,255,255)
-	editable: false
-extra card field:
-	type: choice
-	name: pendulum border
-	choice: image
-	editable: false
-extra card field:
-	type: choice
-	name: pendulum line
-	choice: image
-	editable: false
-#######
-extra card field:
-	type: choice
-	name: name bg
-	choice: bg
-	editable: false
-extra card field:
-	type: choice
-	name: desc bg
-	choice: bg
-	editable: false
-extra card field:
-	type: choice
-	name: pendulum bg
-	choice: bg
-	editable: false
-extra card field:
-	type: choice
-	name: bar
-	choice: bar
-	editable: false
-###############################
-extra card style:
-	name bg:
-		left: 18
-		top: 25
-		width: 382
-		height: 50
-		z index: 1
-		render style: image list
-		choice images:
-			bg:name.png
-		visible:script: if is_pendulum() then false else if is_transparent() then true else false
-	desc bg:
-		left: 23
-		top: 451.5
-		width: 373
-		height: 126
-		z index: 1
-		render style: image list
-		choice images:
-			bg:desc.png
-		visible:script: if is_pendulum() then false else if is_transparent() then true else false
-	bar:
-		left: 35
-		top : 554
-		height: 1
-		width: 348
-		z index: 4
-		render style: image list
-		choice images:
-			bar: bar.png
-		visible: script: if is_pendulum() then false else if is_transparent() then true else false
