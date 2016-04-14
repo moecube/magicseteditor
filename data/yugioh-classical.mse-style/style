@@ -70,8 +70,6 @@ init script:
 	# 是不是 xyz 怪兽
 	is_xyz := { card.card_type == "xyz monster" }
 	is_not_xyz := { not is_xyz() }
-	# 是不是自制新卡模（via 冥府王子）
-	is_new_model := { is_pendulum() and card.card_type != "xyz monster" and card.card_type != "effect monster" and card.card_type != "normal_monster" }
 	# 是否具有大于或等于 10 的刻度
 	is_big_pendulum_scale_1 := { to_int(card.pendulum_scale_1) > 9 }
 	is_big_pendulum_scale_2 := { to_int(card.pendulum_scale_2) > 9 }
@@ -110,8 +108,7 @@ card style:
 	name:
 		left:
 			script:
-				if is_new_model() then 14
-				else if is_xyz() or is_pendulum() then 12
+				if is_xyz() or is_pendulum() then 12
 				else 14
 		top: { if is_xyz() or is_pendulum() then 14 else 18 }
 		width: 127
@@ -149,17 +146,14 @@ card style:
 			dark: { "attribute/att_dark.png" }
 			divine: { "attribute/att_devine.png"}
 	level:
-		left: { if is_12star() then 20 else 17 }
+		left: 18
 		top:
 			script:
-				if is_pendulum() then 34
-				else if is_xyz() then 35
-				else 37.5 
-		height: 12
-		width: 
-			script:
-				if is_12star() then 136
-				else if is_monster() then 144 else 140
+				if is_pendulum() then 33
+				else if is_xyz() then 34
+				else 36.5 
+		height: 14
+		width: { if is_monster() then 144 else 140 }
 		z index: 3
 		alignment: { if is_blmonster() then "middle left" else "middle right" }
 		font:
