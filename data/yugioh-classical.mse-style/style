@@ -1,0 +1,426 @@
+mse version: 0.3.8
+game: yugioh
+short name: Classical
+installer group: Yugioh/Classical
+icon: card_sample.jpg
+position hint: 02
+
+version: 2016-04-08
+depends on:
+	package: yugioh.mse-game
+	version: 2009-08-08
+
+card width: 177
+card height: 254
+card dpi: 120
+
+# 5.9 8.6
+############################################################## Extra style 样式设置
+styling field:
+	type: color
+	name: name color
+	description: Customize the color of the card name.卡片名颜色设置，如果为default，则根据卡片类型和罕见度自动调整
+	initial: rgb(64,64,0)
+	choice: =
+		name: default
+		color:rgb(64,64,0)
+	choice: 
+		name: white
+		color: rgb(255,255,255)
+	choice: 
+		name: red
+		color: rgb(60,0,0)
+	choice: 
+		name: silver
+		color: rgb(230,230,230)
+	choice:
+		name: ligth bule
+		color: rgb(211,252,252)
+	choice: 
+		name: gold
+		color: rgb(216,199,53)
+#styling field:
+#	type: boolean
+#	name: name has shadow
+#	initial: no
+#	description: Whether to allow the card with shadow ? 卡片名称拥有阴影？
+styling field:
+	type: color
+	name: shadow color
+	description: The shadow color for card name.卡片名阴影颜色设置，如果为default，则根据卡片类型和罕见度自动调整
+	initial: rgb(255,217,0)
+#####################
+#styling style:
+############################################################## Extra scripts 额外脚本
+init script:
+	# 中间图无边框
+	image_noframe := { false }
+	# 透明卡图
+	is_transparent := { false }
+	# 获取Pendulum的类型，big，small，middle
+	get_pendulum_mask := {card.pendulum}
+	# 不是Pendulum怪兽
+	is_nopendulum := {get_pendulum_mask() == "none" }
+	# 是Pendulum怪兽
+	is_pendulum :={not is_nopendulum()}
+	# Pendulum的三种类型判断
+	is_big_pend :={get_pendulum_mask() == "big"}
+	is_medium_pend :={get_pendulum_mask() == "medium"}
+	is_small_pend :={get_pendulum_mask() == "small"}
+	# 是不是 xyz 怪兽
+	is_xyz := { card.card_type == "xyz monster" }
+	is_not_xyz := { not is_xyz() }
+	# 是不是自制新卡模（via 冥府王子）
+	is_new_model := { is_pendulum() and card.card_type != "xyz monster" and card.card_type != "effect monster" and card.card_type != "normal_monster" }
+	# 是否具有大于或等于 10 的刻度
+	is_big_pendulum_scale_1 := { to_int(card.pendulum_scale_1) > 9 }
+	is_big_pendulum_scale_2 := { to_int(card.pendulum_scale_2) > 9 }
+	is_small_pendulum_scale := { not is_big_pendulum_scale }
+	# 镀膜为全卡图
+	foil_is_full :={ card.rarity=="parallel rare" or card.rarity=="star rare" or card.rarity=="mosaic rare"}
+	# 卡名使用自定义颜色
+	use_name_color := {styling.name_color != rgb(255,217,0)}
+	# 卡名使用阴影
+	set_shadow :={styling.shadow_color != rgb(254,254,254)}
+	no_shadow :={card.rarity=="common"}
+############################################################## Card fields
+card style:
+	############################# Background stuff
+	card type:
+		left: 0
+		top: 0
+		width: 177
+		height: 254
+		z index: -2
+		render style: image
+		popup style: in place
+		choice images:
+			normal monster: { if is_pendulum() then "card_pnormal.jpg" else "card_normal.jpg" }
+			effect monster: { if is_pendulum() then "card_peffect.jpg" else "card_effect.jpg" }
+			ritual monster: { if is_pendulum() then "card_pritual.jpg" else "card_ritual.jpg" }
+			synchro monster: { if is_pendulum() then "card_psynchro.jpg" else "card_synchro.jpg" }
+			fusion monster: { if is_pendulum() then "card_pfusion.jpg" else "card_fusion.jpg" }
+			token monster: card_token.jpg
+			token card: card_token.jpg
+			xyz monster: { if is_pendulum() then "card_pxyz.jpg" else "card_xyz.jpg" }
+			spell card: card_spell.jpg
+			trap card: card_trap.jpg
+		visible: true
+	############################# Name line
+	name:
+		left:
+			script:
+				if is_new_model() then 14
+				else if is_xyz() or is_pendulum() then 12
+				else 14
+		top: { if is_xyz() or is_pendulum() then 14 else 18 }
+		width: 127
+		height: 14
+		alignment: middle shrink-overflow
+		padding bottom: 0
+		padding left: 2
+		padding right: 1
+		z index: 2
+		font:
+			name:	WenQuanYi Micro Hei
+			size: 10
+			color: { rgba(255, 217, 0, 255) }
+			shadow color: { rgba(64, 64, 0, 255) }
+			shadow displacement x: 1
+			shadow displacement y: 1
+			shadow blur: 0
+	attribute:
+		left: 144
+		top :
+			script:
+				if is_pendulum() then 12
+			 	else if is_xyz() then 12 else 16
+		width: 18
+		height: 18
+		z index: 2
+		render style: image
+		popup style: in place
+		choice images:
+			earth: { "attribute/att_earth.png" }
+			water: { "attribute/att_water.png" }
+			fire: { "attribute/att_fire.png" }
+			wind: { "attribute/att_wind.png" }
+			light: { "attribute/att_light.png" }
+			dark: { "attribute/att_dark.png" }
+			divine: { "attribute/att_devine.png"}
+	level:
+		left: { if is_12star() then 20 else 17 }
+		top:
+			script:
+				if is_pendulum() then 34
+				else if is_xyz() then 35
+				else 37.5 
+		height: 12
+		width: 
+			script:
+				if is_12star() then 136
+				else if is_monster() then 144 else 140
+		z index: 3
+		alignment: { if is_blmonster() then "middle left" else "middle right" }
+		font:
+			name: WenQuanYi Micro Hei
+			size: 8
+			color: rgb(0,0,0)
+		symbol font:
+			name: yugioh-classical-levels
+			alignment: middle center
+			size: 8
+	############################# Image
+	image:
+		left:
+			script:
+				if is_pendulum() then 15
+				else if is_xyz() then 25
+				else 25
+		top:
+			script:
+				if is_pendulum() then 50
+				else if is_xyz() then 53
+				else 53
+		width:
+			script:
+				if is_pendulum() then 147
+				else if is_xyz() then 128
+				else 128
+		height:
+			script:
+				if is_pendulum() then 110
+				else if is_xyz() then 128
+				else 128
+		z index: 1
+	############################# Card type
+	monster type:
+		left: 16
+		top: 
+			script:
+				if is_pendulum() then 191
+				else if is_xyz() then 191
+				else 195
+		width: { card_style.monster_type.content_width + 8 }
+		height: 10
+		alignment: middle left 
+		z index: 2
+		font:
+			name: WenQuanYi Micro Hei
+			size: 6
+			color: rgb(0,0,0)
+		visible: script: if is_nmonster() then false else true
+	############################# Text box
+	rule text:
+		left: 
+			script:
+				16
+		top: 
+			script:
+				if is_monster() then
+					if is_pendulum() or is_xyz() then 202
+					else 205
+				else 195
+		width:
+			script:
+				145
+		height:
+			script:
+				if is_monster() then
+					if is_pendulum() or is_xyz() then 28 else 26
+				else 40
+		font: 
+			name: { "WenQuanYi Micro Hei" }
+			size: 5
+			scale down to: 3
+			color: rgb(0,0,0)
+		alignment: top left stretch if-overflow
+		z index: 3
+		padding left: 1
+		padding top: 0
+		padding right: 1
+		padding bottom: 0
+		line height hard: 1.0
+		line height line: 1.0
+		line height soft: 1.0
+		line height hard max: 1.1
+		line height line max: 1.1
+		symbol font:
+			name: yugioh-classical-replacements
+			alignment: middle center
+			size: 3
+	############################# Attack/Defense
+	attack:
+		left: 
+			script:
+				if is_pendulum() then 106
+				else if is_xyz() then 110
+				else 106
+		top: 230.5
+		width: 16
+		height: 10
+		z index: 3
+		alignment: right middle
+		font:
+			name: Arial
+			size: 5.5
+			color: rgb(0,0,0)
+		visible: script: if is_nmonster() then false else true
+	defense:
+		left:
+			script:
+				if is_pendulum() then 142.5
+				else if is_xyz() then 145.5
+				else 143
+		top: 230.5
+		width: 16
+		height: 10
+		z index: 3
+		alignment: right middle
+		font:
+			name: Arial
+			size: 5.5
+			color: rgb(0,0,0)
+		visible: script: if is_nmonster() then false else true
+	###################### pendulum
+	pendulum:
+		left: 5
+		top: 129
+		width: 167
+		height: 60
+		z index: -1
+		render style:image list
+		popup style: in place
+		choice images:
+	pendulum text:
+		left: 28
+		top: 161
+		width: 121
+		height: 26
+		font:
+			name: { "WenQuanYi Micro Hei" }
+			size: 5
+			scale down to: 1
+			color: rgb(0,0,0)
+		symbol font:
+			name: yugioh-text-replacements
+			alignment: middle center
+			scale down to: 2
+			size: 3.5
+		alignment: top left stretch if-overflow
+		z index: 3
+		padding left: 0
+		padding top: 0
+		padding right: 0
+		padding bottom: 0
+		line height hard: 1.0
+		line height line: 1.0
+		line height soft: 1.0
+		line height hard max: 1.1
+		line height line max: 1.1
+		visible: script: if is_nopendulum() then false else true
+	pendulum scale 1:
+		left: { if is_big_pendulum_scale_1() then 14.5 else 16 }
+		top: 174
+		width: 10
+		height: 11
+		z index: 3
+		alignment: bottom center
+		font:
+			name: WenQuanYi Micro Hei
+			size: { if is_big_pendulum_scale_1() then 7 else 8 }
+			color: rgb(0,0,0)
+		visible: script: if is_nopendulum() then false else true
+	pendulum scale 2:
+		left: { if is_big_pendulum_scale_2() then 151 else 152 }
+		top: 174
+		width: 10
+		height: 11
+		z index: 3
+		alignment: bottom center
+		font:
+			name: WenQuanYi Micro Hei
+			size: { if is_big_pendulum_scale_2() then 7 else 8 }
+			color: rgb(0,0,0)
+		visible: script: if is_nopendulum() then false else true
+	gamecode:
+		left: 18.5
+		top : 578
+		width: 56
+		height: 21
+		alignment: middle left
+		z index: 2
+		font:
+			name: ITC Stone Serif
+			size: 8.5
+			color: script: if is_pendulum() then rgb(0,0,0) else if is_blmonster() then rgb(255,255,255) else rgb(0,0,0)
+		visible: false
+############################################extra card field:
+extra card field:
+	type: color
+	name: pendulum text bg
+	default: rgb(255,255,255)
+	editable: false
+extra card field:
+	type: choice
+	name: pendulum border
+	choice: image
+	editable: false
+extra card field:
+	type: choice
+	name: pendulum line
+	choice: image
+	editable: false
+#######
+extra card field:
+	type: choice
+	name: name bg
+	choice: bg
+	editable: false
+extra card field:
+	type: choice
+	name: desc bg
+	choice: bg
+	editable: false
+extra card field:
+	type: choice
+	name: pendulum bg
+	choice: bg
+	editable: false
+extra card field:
+	type: choice
+	name: bar
+	choice: bar
+	editable: false
+###############################
+extra card style:
+	name bg:
+		left: 18
+		top: 25
+		width: 382
+		height: 50
+		z index: 1
+		render style: image list
+		choice images:
+			bg:name.png
+		visible:script: if is_pendulum() then false else if is_transparent() then true else false
+	desc bg:
+		left: 23
+		top: 451.5
+		width: 373
+		height: 126
+		z index: 1
+		render style: image list
+		choice images:
+			bg:desc.png
+		visible:script: if is_pendulum() then false else if is_transparent() then true else false
+	bar:
+		left: 35
+		top : 554
+		height: 1
+		width: 348
+		z index: 4
+		render style: image list
+		choice images:
+			bar: bar.png
+		visible: script: if is_pendulum() then false else if is_transparent() then true else false
