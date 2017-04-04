@@ -12,6 +12,7 @@ card field:
 	choice: fusion monster
 	choice: token monster
 	choice:	xyz monster
+	choice: link monster
 	choice: obelisk
 	choice: slifer
 	choice: ra
@@ -132,6 +133,11 @@ card field:
 	default: if contains(card.type2, match:get_sep()) then split_text(match:get_sep(), card.type2).2 else "" # Remove when card.type2 is removed.
 card field:
 	type: text
+	name: type 5
+	script: card_class_filter(value)
+	default: if contains(card.type2, match:get_sep()) then split_text(match:get_sep(), card.type3).3 else "" # Remove when card.type2 is removed.
+card field:
+	type: text
 	name: monster type
 	description: If no Comobox, please input space.如果看不到下拉框，请输入空格
 	script:
@@ -147,6 +153,8 @@ card field:
 			field3: card.type_3,
 			separator3: get_sep(),
 			field4: card.type_4,
+			separator4: get_sep(),
+			field5: card.type_5,
 			soft_before_empty: true,
 			hide_when_empty: true
 		)
@@ -159,6 +167,8 @@ card field:
 			field3: card.type_3,
 			separator3: get_sepex(card.type_4),
 			field4: card.type_4,
+			separator4: get_sepex(card.type_5),
+			field5: card.type_5,
 			prefix: if remove_tags(card.type_1)=="    " then "" else if is_jp() then "【" else if is_en() then "[" else "<sym-auto>[</sym-auto>",
 			suffix: if remove_tags(card.type_1)=="    " then "" else if is_jp() then "】" else if is_en() then "]" else "<sym-auto>]</sym-auto>",
 			soft_before_empty: true,
@@ -237,6 +247,63 @@ card field:
 	name: pendulum scale 2
 	save value: true
 	show statistics: false
+############################# Link Markers
+card field:
+	type: choice
+	name: Link Marker Up
+	choice: none
+	choice: yes
+	save value: yes
+	show statistics: false
+card field:
+	type: choice
+	name: Link Marker UL
+	choice: none
+	choice: yes
+	save value: yes
+	show statistics: false
+card field:
+	type: choice
+	name: Link Marker UR
+	choice: none
+	choice: yes
+	save value: yes
+	show statistics: false
+card field:
+	type: choice
+	name: Link Marker Down
+	choice: none
+	choice: yes
+	save value: yes
+	show statistics: false
+card field:
+	type: choice
+	name: Link Marker DL
+	choice: none
+	choice: yes
+	save value: yes
+	show statistics: false
+card field:
+	type: choice
+	name: Link Marker DR
+	choice: none
+	choice: yes
+	save value: yes
+	show statistics: false
+card field:
+	type: choice
+	name: Link Marker Left
+	choice: none
+	choice: yes
+	save value: yes
+	show statistics: false
+card field:
+	type: choice
+	name: Link Marker Right
+	choice: none
+	choice: yes
+	save value: yes
+	show statistics: false
 ############################# Attack/Defense
 card field:
 	type: text
@@ -258,6 +325,16 @@ card field:
 	card list width: 33
 	card list name: DEF
 	description: & = unlimited 无限
+############################ Link
+card field:
+	type: text
+	name: link number
+	save value: true
+	script: a_and_d_filter(value)
+	card list visible: true
+	card list column: 5
+	card list name: Link
+	card list width: 33
 ############################# Copyright stuff
 card field:
 	type: choice
@@ -278,7 +355,7 @@ card field:
 	choice: promo
 	card list visible: true
 	card list column: 7
-	description: Ratity.罕见度
+	description: Rarity.罕见度
 card field:
 	type: choice
 	name: corner foil
@@ -323,6 +400,13 @@ card field:
 	show statistics: false
 	editable: false
 	default: small_type(card.type_4)
+	save value: false
+card field:
+	type: text
+	name: small type 5
+	show statistics: false
+	editable: false
+	default: small_type(card.type_5)
 	save value: false
 ############################
 card field:
