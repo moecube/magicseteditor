@@ -22,12 +22,12 @@ set field:
 set field:
 	type: text
 	name: edition
-	default: "LIMITED Edition"
+	default: ""
 	description: such as "DUEL TERMINAL"
 set field:
 	type: text
 	name: author
-	default: "AntiMetaman"
+	default: ""
 	description: 247321453
 set field:
 	type: text
