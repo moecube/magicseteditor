@@ -1,4 +1,4 @@
-﻿
+
 ############################################################## Set fields
 set field:
 	type: info
@@ -23,7 +23,7 @@ set field:
 	type: text
 	name: edition
 	default: ""
-	description: such as "DUEL TERMINAL"
+	description:
 set field:
 	type: text
 	name: author
