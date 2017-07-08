@@ -212,7 +212,7 @@ card style:
 					else if is_ko() then "KoreanYSB" 
 					else if is_cn() then "方正隶变_GBK" 
 					else "MatrixRegularSmallCaps"
-			italic name: { if is_tw() then "Yu-Gi-Oh! DFG Leisho 5" else "Yu-Gi-Oh! DFG Leisho 4" }
+			italic name: { if is_cn() then "Yu-Gi-Oh! DFG Leisho 5" else if is_tw() then "Yu-Gi-Oh! DFG Leisho 5" else "Yu-Gi-Oh! DFG Leisho 4" }
 			size: { if is_tw() or is_cn() or is_jp() then 24 else if is_ko() then 27 else 32	 }
 			color:
 				script:
@@ -233,6 +233,7 @@ card style:
 					else if not hide_foil() and card.rarity=="ultimate rare (No foil)" then rgb(69,60,0)
 					else if not hide_foil() and card.rarity=="parallel rare" then rgb(88,76,12)
 					else if not hide_foil() and card.rarity=="gold rare" then rgb(88,76,12)
+					else if is_whitetext_monster() then rgb(255,255,255)
 					else if is_blmonster() or is_link() then rgb(255,255,255) 
 					else if is_nmonster() then rgb(255,255,255) 
 					else rgb(0,0,0)
@@ -369,7 +370,7 @@ card style:
 					else if is_jp() then "Yu-Gi-Oh! DFG Leisho 4" 
 					else if is_ko() then "SD Book-B"
 					else if is_cn() then "方正隶变_GBK" 
-					else "Yu-Gi-Oh!ITCStoneSerifSmallCapsBold"
+					else "Yu-Gi-Oh!ITCStoneSerifSmallCaps"
 			italic name: { if is_en() or is_ko() then "ITC Stone Serif" else if is_cn() then "DFPLiShuW5-B5" else "Yu-Gi-Oh! DFG Leisho 4" }
 			size: { if is_cn() then 13.5 else if is_jp() or is_tw() then 13 else 13 }
 			color: rgb(0,0,0)
@@ -417,7 +418,7 @@ card style:
 					else if is_ko() then "SD Book-L"
 					else if is_cn() then "方正隶变_GBK"
 					else "MatrixBook"
-			italic name: { if is_en() then "ITC Stone Serif Italic" else if is_tw() then "Yu-Gi-Oh! DFG Leisho 5" else "Yu-Gi-Oh! DFG Leisho 4" }
+			italic name: { if is_cn() then "Yu-Gi-Oh! DFG Leisho 5" else if is_en() then "ITC Stone Serif Italic" else if is_tw() then "Yu-Gi-Oh! DFG Leisho 5" else "Yu-Gi-Oh! DFG Leisho 4" }
 			size: { if is_ko() then "10.5" else if is_en() then "10.5" else if is_tw() then "12" else "11.5"}
 			scale down to: 3
 			color: rgb(0,0,0)
@@ -652,6 +653,7 @@ card style:
 					else if is_ko() then "SD Book-L"
 					else if is_cn() then "方正隶变_GBK"					
 					else "MatrixBook" 
+			italic name: { if is_cn() then "Yu-Gi-Oh! DFG Leisho 5" else if is_en() then "ITC Stone Serif Italic" else if is_tw() then "Yu-Gi-Oh! DFG Leisho 5" else "Yu-Gi-Oh! DFG Leisho 4" }
 			size: 8
 			scale down to: 3
 			color: rgb(0,0,0)
